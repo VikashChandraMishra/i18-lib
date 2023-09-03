@@ -1,21 +1,27 @@
 const { i18n } = require('./i18n');
 
 const newObject = new i18n(
-    'en',
+    'hi',
     [
         'en',
-        'hi',
-        'as'
+        'hi'
     ],
     {
         'en': {
-            'hi': 'hey'
+            'hi': 'hey',
+            'how': 'how',
+            'are': 'are',
+            'you': 'you',
+            'bye': 'bye'
         },
         'hi': {
-            'hi': 'hey'
-        },
-        'as': {
-            'hi': 'hey'
+            'hi': 'namaste',
+            'how': 'kese',
+            'are': 'ho',
+            'you': 'tum',
+            'bye': 'alvida'
         }
     }
 );
+
+console.log(newObject.t("how are you bye", 'kal aana'));

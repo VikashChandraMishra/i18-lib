@@ -1,12 +1,12 @@
-class i18n {
+const DEFAULT_LANGUAGE = 'en';
 
-    selectedLanguage = 'en';
+class i18n {
 
     constructor(selectedLanguage, languages, translations) {
 
-        this.selectedLanguage = selectedLanguage;
+        this.selectedLanguage = selectedLanguage || DEFAULT_LANGUAGE;
         this.languages = languages || [];
-        this.translations = translations || {};
+        this.allTranslations = translations || {};
 
         this._crosscheckLanguagesWithTranslations();
 
@@ -14,16 +14,16 @@ class i18n {
 
     _crosscheckLanguagesWithTranslations() {
 
-        const languagesFromTranslations = Object.keys(this.translations);
+        const languagesFromAllTranslations = Object.keys(this.allTranslations);
 
-        if (languagesFromTranslations.length != this.languages.length) throw {
+        if (languagesFromAllTranslations.length != this.languages.length) throw {
             name: "TranslationsAndLanguagesLengthNotMatchingError",
             message: "Lengths of translations object and languages array must be same"
         };
 
         for (let i in this.languages) {
 
-            if (!languagesFromTranslations.includes(this.languages[i])) {
+            if (!languagesFromAllTranslations.includes(this.languages[i])) {
                 throw {
                     name: "TranslationsMissingError",
                     message: "Translations object must contain translations for all languages defined in the languages array"
@@ -41,6 +41,31 @@ class i18n {
         return this.selectedLanguage;
     }
 
-}
+    t(text, fallBackText) {
 
+        const selectedTranslations = this.allTranslations[this.selectedLanguage];
+
+        const textArray = text.split(' ');
+        let translatedText = '';
+
+        for (let i in textArray) {
+
+            if (Object.keys(selectedTranslations).includes(textArray[i])) {
+
+                translatedText += selectedTranslations[textArray[i]] + ' ';
+
+            } else if (fallBackText) {
+                return fallBackText;
+
+            } else throw {
+                name: "TranslationNotFoundError",
+                message: "The translations provided for the given language does not include the translation for \'" + text + "\'"
+            }
+
+        }
+
+        return translatedText;
+
+    }
+}
 module.exports = { i18n };
