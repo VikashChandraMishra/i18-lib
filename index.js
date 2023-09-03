@@ -10,6 +10,7 @@ const newObject = new i18n(
         'en': {
             'hi': 'hey',
             'how': 'how',
+            'where': 'where',
             'are': 'are',
             'you': 'you',
             'bye': 'bye'
@@ -17,6 +18,7 @@ const newObject = new i18n(
         'hi': {
             'hi': 'namaste',
             'how': 'kese',
+            'where': 'kaha',
             'are': 'ho',
             'you': 'tum',
             'bye': 'alvida'
@@ -24,4 +26,12 @@ const newObject = new i18n(
     }
 );
 
-console.log(newObject.t("how are you bye", 'kal aana'));
+console.log(newObject.t("how are you", 'gadbad ho gayi'));
+
+newObject.setLanguage('en');
+
+console.log(newObject.t("where are you", 'something went wrong'));
+
+newObject.setLanguage('hi');
+
+console.log(newObject.t("where are you", 'gadbad ho gayi'));

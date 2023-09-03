@@ -2,11 +2,15 @@ const DEFAULT_LANGUAGE = 'en';
 
 class i18n {
 
+    #selectedLanguage = DEFAULT_LANGUAGE;
+    #languages = [];
+    #allTranslations = {};
+
     constructor(selectedLanguage, languages, translations) {
 
-        this.selectedLanguage = selectedLanguage || DEFAULT_LANGUAGE;
-        this.languages = languages || [];
-        this.allTranslations = translations || {};
+        this.#selectedLanguage = selectedLanguage || DEFAULT_LANGUAGE;
+        this.#languages = languages || [];
+        this.#allTranslations = translations || {};
 
         this._crosscheckLanguagesWithTranslations();
 
@@ -14,16 +18,16 @@ class i18n {
 
     _crosscheckLanguagesWithTranslations() {
 
-        const languagesFromAllTranslations = Object.keys(this.allTranslations);
+        const languagesFromAllTranslations = Object.keys(this.#allTranslations);
 
-        if (languagesFromAllTranslations.length != this.languages.length) throw {
+        if (languagesFromAllTranslations.length != this.#languages.length) throw {
             name: "TranslationsAndLanguagesLengthNotMatchingError",
             message: "Lengths of translations object and languages array must be same"
         };
 
-        for (let i in this.languages) {
+        for (let i in this.#languages) {
 
-            if (!languagesFromAllTranslations.includes(this.languages[i])) {
+            if (!languagesFromAllTranslations.includes(this.#languages[i])) {
                 throw {
                     name: "TranslationsMissingError",
                     message: "Translations object must contain translations for all languages defined in the languages array"
@@ -34,16 +38,20 @@ class i18n {
     }
 
     getLanguages() {
-        return this.languages;
+        return this.#languages;
+    }
+
+    setLanguage(language) {
+        this.#selectedLanguage = language || DEFAULT_LANGUAGE;
     }
 
     getSelectedLanguage() {
-        return this.selectedLanguage;
+        return this.#selectedLanguage;
     }
 
     t(text, fallBackText) {
 
-        const selectedTranslations = this.allTranslations[this.selectedLanguage];
+        const selectedTranslations = this.#allTranslations[this.#selectedLanguage];
 
         const textArray = text.split(' ');
         let translatedText = '';
@@ -68,4 +76,5 @@ class i18n {
 
     }
 }
+
 module.exports = { i18n };
