@@ -42,7 +42,19 @@ class i18n {
     }
 
     setLanguage(language) {
-        this.#selectedLanguage = language || DEFAULT_LANGUAGE;
+
+        if (!language)
+            this.#selectedLanguage = DEFAULT_LANGUAGE;
+
+        else if (!this.#languages.includes(language))
+            throw {
+                name: "LanguageNotFoundError",
+                message: "Please choose a language from the languages array"
+            }
+
+        else
+            this.#selectedLanguage = language;
+
     }
 
     getSelectedLanguage() {

@@ -1,9 +1,9 @@
-import React from 'react';
-import { useTranslation } from './TranslationProvider';
+import React, { useContext } from 'react';
+import TranslationContext from './TranslationContext';
 
 const T = ({ children }) => {
 
-    const { translate } = useTranslation();
+    const { translate } = useContext(TranslationContext);
 
     return (
         <>
