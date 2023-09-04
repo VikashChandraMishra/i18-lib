@@ -4,5 +4,8 @@
   "description": "A minimal i18n library",
   "main": "index.js",
   "author": "Vikash Chandra Mishra",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0"
+  }
 }

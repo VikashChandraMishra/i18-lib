@@ -77,4 +77,4 @@ class i18n {
     }
 }
 
-module.exports = { i18n };
+module.exports = { i18n, DEFAULT_LANGUAGE };
