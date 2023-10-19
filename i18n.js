@@ -1,3 +1,6 @@
+const { isObjectEmpty } = require("./util/commonhelpers");
+const { replaceKeys } = require("./util/interpolation");
+
 const DEFAULT_LANGUAGE = 'en';
 
 class i18n {
@@ -8,14 +11,15 @@ class i18n {
 
     constructor(selectedLanguage, languages, translations) {
 
-        this.#selectedLanguage = selectedLanguage || DEFAULT_LANGUAGE;
         this.#languages = languages || [];
+        this.setLanguage(selectedLanguage);
         this.#allTranslations = translations || {};
 
         this._crosscheckLanguagesWithTranslations();
 
     }
 
+    // check for one-to-one correspondence between languages and translations provided
     _crosscheckLanguagesWithTranslations() {
 
         const languagesFromAllTranslations = Object.keys(this.#allTranslations);
@@ -61,7 +65,12 @@ class i18n {
         return this.#selectedLanguage;
     }
 
-    t(text, fallBackText) {
+    t(
+        text,
+        {
+            fallBackText,
+            interpolationObject
+        }) {
 
         const selectedTranslations = this.#allTranslations[this.#selectedLanguage];
 
@@ -82,6 +91,10 @@ class i18n {
                 message: "The translations provided for the given language does not include the translation for \'" + text + "\'"
             }
 
+        }
+
+        if (!isObjectEmpty(interpolationObject)) {
+            translatedText = replaceKeys(translatedText, interpolationObject);
         }
 
         return translatedText;
