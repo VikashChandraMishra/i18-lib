@@ -80,8 +80,10 @@ class i18n {
         for (let i in textArray) {
 
             if (Object.keys(selectedTranslations).includes(textArray[i])) {
-
                 translatedText += selectedTranslations[textArray[i]] + ' ';
+
+            } else if (/{{\w+}}/.test(textArray[i])) {
+                translatedText += textArray[i] + ' ';
 
             } else if (fallBackText) {
                 return fallBackText;
@@ -97,7 +99,7 @@ class i18n {
             translatedText = replaceKeys(translatedText, interpolationObject);
         }
 
-        return translatedText;
+        return translatedText.trim();
 
     }
 }
